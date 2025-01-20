@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DaftarMenuController;
+use App\Http\Controllers\IndukMenuController;
 use App\Http\Controllers\levelcontroller;
 use App\Http\Controllers\RegisterController;
 
@@ -56,7 +58,7 @@ Route::middleware('auth')->group(function () {
 
 
     });
-    Route::group(['prefix'=>'profile'], function(){
+    Route::group(['prefix' => 'profile'], function () {
         Route::get('/edit', [UserController::class, 'profile']);
         Route::post('/update_profile', [UserController::class, 'update_profile']);
         Route::put('/update', [UserController::class, 'updateinfo']);
@@ -83,9 +85,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/import', [LevelController::class, 'import']); // ajax form upload excel
         Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
         Route::get('/export_excel', [LevelController::class, 'export_excel']); // ajax exsport excel
-        Route::get('/export_pdf', [LevelController::class, 'export_pdf']);// export pdf
+        Route::get('/export_pdf', [LevelController::class, 'export_pdf']); // export pdf
     });
-      Route::group(['prefix' => 'menu', 'middleware' => 'authorize:ADM'], function () {
+    Route::group(['prefix' => 'menu', 'middleware' => 'authorize:ADM'], function () {
         Route::get('/', [MenuController::class, 'index']); // Menampilkan halaman pengaturan menu
         Route::post('/list', [MenuController::class, 'list']); // Menampilkan data menu dalam bentuk JSON
         Route::get('/create', [MenuController::class, 'create']); // Menampilkan halaman form tambah menu
@@ -94,7 +96,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/{menu_id}', [MenuController::class, 'update']); // Memperbarui menu
         Route::delete('/{menu_id}', [MenuController::class, 'destroy']); // Menghapus menu
         Route::post('/upload-image', [MenuController::class, 'uploadImage']);
-        
     });
     // Route::group(['prefix' => 'menu', 'middleware' => 'authorize:ADM'], function () {
     //     Route::get('/', [MenuController::class, 'index'])->name('menu.index');
@@ -106,7 +107,20 @@ Route::middleware('auth')->group(function () {
     //     Route::delete('/{menu_id}', [MenuController::class, 'destroy'])->name('menu.destroy');
     //     Route::post('/upload-image', [MenuController::class, 'uploadImage'])->name('upload.image');
     // });
+    Route::group(['prefix' => 'indukMenu', 'middleware' => 'authorize:ADM'], function () {
+        Route::get('/', [IndukMenuController::class, 'index']);
+        Route::post('/list', [IndukMenuController::class, 'list']);
+        Route::get('/create_ajax', [IndukMenuController::class, 'create_ajax']);
+        Route::post('/ajax', [IndukMenuController::class, 'store_ajax']);
+        Route::get('/{id}/edit_ajax', [IndukMenuController::class, 'edit_ajax']);
+        Route::put('/{id}/update_ajax', [IndukMenuController::class, 'update_ajax']);
+        Route::get('/{id}/delete_ajax', [IndukMenuController::class, 'confirm_ajax']);
+        Route::delete('/{id}/delete_ajax', [IndukMenuController::class, 'delete_ajax']);
+    });
 
-    
-    
+    Route::group(['prefix' => 'daftarMenu', 'middleware' => 'authorize:ADM'], function () {
+        Route::get('/', [DaftarMenuController::class, 'index']);
+        Route::get('/{id}/subMenu', [DaftarMenuController::class, 'subMenu']);
+        Route::get('/content/{pageId}', [DaftarMenuController::class, 'content']);
+    });
 });

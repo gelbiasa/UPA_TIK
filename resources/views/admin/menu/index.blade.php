@@ -35,12 +35,14 @@
               <td>{{ $menu->slug }}</td>
               <td>{{ $menu->order_number }}</td>
               <td>
-                <a href="{{ url('/menu/' . $menu->menus_id . '/edit') }}" class="btn btn-warning btn-sm">Edit</a>
-                <form method="POST" action="{{ url('/menu/' . $menu->menus_id) }}" style="display:inline;">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus menu ini?');">Hapus</button>
-                </form>
+                @if($menu->parent_id !== null) <!-- Hanya tampilkan tombol aksi jika menu memiliki parent_id -->
+                  <a href="{{ url('/menu/' . $menu->menus_id . '/edit') }}" class="btn btn-warning btn-sm">Edit</a>
+                  <form method="POST" action="{{ url('/menu/' . $menu->menus_id) }}" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus menu ini?');">Hapus</button>
+                  </form>
+                @endif
               </td>
             </tr>
             @foreach($menu->children as $submenu)

@@ -43,9 +43,24 @@
 
                 <!-- Manajemen Menu -->
                 <li class="nav-item">
+                    <a href="{{ url('/indukMenu') }}" class="nav-link {{ $activeMenu == 'induk_menu' ? 'active' : '' }}">
+                        <i class="fas fa-cog"></i>
+                        <p>Menu Utama</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('/menu') }}" class="nav-link {{ $activeMenu == 'menu' ? 'active' : '' }}">
                         <i class="fas fa-cog"></i>
                         <p>Manajamen Menu</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Tampilan Daftar Menu</li>
+
+                <li class="nav-item">
+                    <a href="{{ url('/daftarMenu') }}" class="nav-link {{ $activeMenu == 'daftar_menu' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>Menu</p>
                     </a>
                 </li>
                 

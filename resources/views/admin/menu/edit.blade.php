@@ -6,7 +6,7 @@
       <h3 class="card-title">Edit Menu</h3>
     </div>
     <div class="card-body">
-      <form action="{{ url('/menu/' . $menu->menus_id) }}" method="POST">
+      <form action="{{ url('/menu/' . $menu->menus_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -33,8 +33,15 @@
           <input type="number" class="form-control" name="order_number" id="order_number" value="{{ $menu->order_number }}" required>
         </div>
         <div class="form-group">
+          <label for="thumbnail">Thumbnail</label>
+          <input type="file" class="form-control" name="thumbnail" id="thumbnail">
+          @if($menu->page && $menu->page->thumbnail)
+            <img src="{{ asset('storage/' . $menu->page->thumbnail) }}" alt="Thumbnail" class="img-fluid mt-2" style="max-height: 100px;">
+          @endif
+        </div>
+        <div class="form-group">
           <label for="content">Konten</label>
-          <textarea class="form-control" name="content" id="content">{{ $menu->content->body ?? '' }}</textarea>
+          <textarea class="form-control" name="content" id="content" rows="5">{{ $menu->page->content ?? '' }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Perbarui</button>
       </form>
