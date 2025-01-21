@@ -14,6 +14,7 @@ class Page extends Model
         'thumbnail',
         'menus_id',
         'content',
+        'content_image',
         'user_id'
     ];
 

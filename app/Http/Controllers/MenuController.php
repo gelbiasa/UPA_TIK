@@ -60,7 +60,8 @@ class MenuController extends Controller
             'slug' => 'required|unique:menus,slug',
             'order_number' => 'required|integer',
             'content' => 'required',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'content_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         DB::beginTransaction();
@@ -71,10 +72,16 @@ class MenuController extends Controller
                 $thumbnailPath = $request->file('thumbnail')->store('menu-thumbnails', 'public');
             }
 
+            $contentPath = null;
+            if ($request->hasFile('content_image')) {
+                $contentPath = $request->file('content_image')->store('menu-images', 'public');
+            }
+
             $page = Page::create([
                 'title' => $request->name,
                 'thumbnail' => $thumbnailPath,
                 'content' => $request->content,
+                'content_image' => $contentPath,
                 'user_id' => Auth::id()
             ]);
 
@@ -90,14 +97,7 @@ class MenuController extends Controller
             return redirect('/menu')->with('success', 'Menu berhasil ditambahkan');
         } catch (\Exception $e) {
             DB::rollback();
-
-            if ($thumbnailPath && Storage::disk('public')->exists($thumbnailPath)) {
-                Storage::disk('public')->delete($thumbnailPath);
-            }
-
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -146,7 +146,8 @@ class MenuController extends Controller
             'slug' => 'required|unique:menus,slug,' . $menu_id . ',menus_id',
             'order_number' => 'required|integer',
             'content' => 'required',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'content_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         DB::beginTransaction();
@@ -160,10 +161,19 @@ class MenuController extends Controller
                 $thumbnailPath = $request->file('thumbnail')->store('menu-thumbnails', 'public');
             }
 
+            $contentPath = $menu->page->content_image;
+            if ($request->hasFile('content_image')) {
+                if ($contentPath && Storage::disk('public')->exists($contentPath)) {
+                    Storage::disk('public')->delete($contentPath);
+                }
+                $contentPath = $request->file('content_image')->store('menu-images', 'public');
+            }
+
             $menu->page->update([
                 'title' => $request->name,
                 'thumbnail' => $thumbnailPath,
-                'content' => $request->content
+                'content' => $request->content,
+                'content_image' => $contentPath
             ]);
 
             $menu->update([
@@ -177,13 +187,9 @@ class MenuController extends Controller
             return redirect('/menu')->with('success', 'Menu berhasil diperbarui');
         } catch (\Exception $e) {
             DB::rollback();
-
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-
 
     public function destroy($menu_id)
     {
