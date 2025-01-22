@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Yajra\DataTables\DataTables;
 
-class usercontroller extends Controller
+class UserController extends Controller
 {
     //menampilkan halaman awal user
     public function index()

@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarMenuController;
 use App\Http\Controllers\IndukMenuController;
-use App\Http\Controllers\levelcontroller;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\RegisterController;
 
 Route::pattern('id', '[0-9]+');
@@ -22,37 +22,26 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('register', [RegisterController::class, 'register'])->name('register');
 Route::post('register', [RegisterController::class, 'store']);
 
-// Route::group(['prefix' => 'user'], function () {
-//     Route::get('/', [UserController::class, 'index']);
-//     Route::post('/list', [UserController::class, 'list']);
-//     Route::get('/create', [UserController::class, 'create']);
-//     Route::post('/', [UserController::class, 'store']);
-//     Route::get('/{id}', [UserController::class, 'show']);
-//     Route::get('/{id}/edit', [UserController::class, 'edit']);
-//     Route::put('/{id}', [UserController::class, 'update']);
-//     Route::delete('/{id}', [UserController::class, 'destroy']);
-// });
-
 Route::middleware('auth')->group(function () {
     Route::get('/', [welcomeController::class, 'index']);
     Route::group(['prefix' => 'user', 'middleware' => 'authorize:ADM'], function () {
-        Route::get('/', [usercontroller::class, 'index']); //menampilkan halaman awal user
-        Route::post('/list', [usercontroller::class, 'list']); //menampilkan data user dalam bentuk json untuk data tables
-        Route::get('/create', [usercontroller::class, 'create']); //menampilkan halaman form tambah user
-        Route::post('/', [usercontroller::class, 'store']); //menyimpan data user baru
-        Route::get('/create_ajax', [usercontroller::class, 'create_ajax']); //menampilkan halaman form tambah user ajax
-        Route::post('/ajax', [usercontroller::class, 'store_ajax']); //meyimpan data user baru ajax
-        Route::get('/{id}', [usercontroller::class, 'show']); //menampilkan detail user
-        Route::get('/{id}/edit', [usercontroller::class, 'edit']); //menampilkan halaman form edit
-        Route::put('/{id}', [usercontroller::class, 'update']); //meyimpan perubahan data user
-        Route::get('/{id}/edit_ajax', [usercontroller::class, 'edit_ajax']); //menampilkan halaman form edit ajax
-        Route::put('/{id}/update_ajax', [usercontroller::class, 'update_ajax']); // update ajax
-        Route::get('/{id}/delete_ajax', [usercontroller::class, 'confirm_ajax']);
-        Route::delete('/{id}/delete_ajax', [usercontroller::class, 'delete_ajax']);
-        Route::get('/{id}/show_ajax', [userController::class, 'show_ajax']);
-        Route::delete('/{id}', [usercontroller::class, 'destroy']); //menghapus data user
-        Route::get('/import', [userController::class, 'import']); // ajax form upload excel
-        Route::post('/import_ajax', [userController::class, 'import_ajax']); // ajax import excel
+        Route::get('/', [UserController::class, 'index']); //menampilkan halaman awal user
+        Route::post('/list', [UserController::class, 'list']); //menampilkan data user dalam bentuk json untuk data tables
+        Route::get('/create', [UserController::class, 'create']); //menampilkan halaman form tambah user
+        Route::post('/', [UserController::class, 'store']); //menyimpan data user baru
+        Route::get('/create_ajax', [UserController::class, 'create_ajax']); //menampilkan halaman form tambah user ajax
+        Route::post('/ajax', [UserController::class, 'store_ajax']); //meyimpan data user baru ajax
+        Route::get('/{id}', [UserController::class, 'show']); //menampilkan detail user
+        Route::get('/{id}/edit', [UserController::class, 'edit']); //menampilkan halaman form edit
+        Route::put('/{id}', [UserController::class, 'update']); //meyimpan perubahan data user
+        Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']); //menampilkan halaman form edit ajax
+        Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']); // update ajax
+        Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
+        Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
+        Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
+        Route::delete('/{id}', [UserController::class, 'destroy']); //menghapus data user
+        Route::get('/import', [UserController::class, 'import']); // ajax form upload excel
+        Route::post('/import_ajax', [UserController::class, 'import_ajax']); // ajax import excel
         Route::get('/export_excel', [UserController::class, 'export_excel']); // ajax exsport excel
         Route::get('/export_pdf', [UserController::class, 'export_pdf']); // export pdf
 
@@ -71,15 +60,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/list', [LevelController::class, 'list']);     // menampilkan data level dalam bentuk json untuk datatables
         Route::get('/create', [LevelController::class, 'create']);  // menampilkan halaman form tambah level
         Route::post('/', [LevelController::class, 'store']);        // menyimpan data level baru
-        Route::get('/create_ajax', [Levelcontroller::class, 'create_ajax']); //menampilkan halaman form tambah user ajax
-        Route::get('/{id}/edit_ajax', [Levelcontroller::class, 'edit_ajax']);
-        Route::put('/{id}/update_ajax', [Levelcontroller::class, 'update_ajax']);
-        Route::post('/ajax', [Levelcontroller::class, 'store_ajax']); //meyimpan data user baru ajax
+        Route::get('/create_ajax', [LevelController::class, 'create_ajax']); //menampilkan halaman form tambah user ajax
+        Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']);
+        Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']);
+        Route::post('/ajax', [LevelController::class, 'store_ajax']); //meyimpan data user baru ajax
         Route::get('/{id}', [LevelController::class, 'show']);      // menampilkan detail level
         Route::get('/{id}/edit', [LevelController::class, 'edit']); // menampilkan halaman form edit level
         Route::put('/{id}', [LevelController::class, 'update']);    // menyimpan perubahan data level
-        Route::get('/{id}/delete_ajax', [Levelcontroller::class, 'confirm_ajax']);
-        Route::delete('/{id}/delete_ajax', [Levelcontroller::class, 'delete_ajax']);
+        Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']);
+        Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
         Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
         Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data level
         Route::get('/import', [LevelController::class, 'import']); // ajax form upload excel
@@ -97,16 +86,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{menu_id}', [MenuController::class, 'destroy']); // Menghapus menu
         Route::post('/upload-image', [MenuController::class, 'uploadImage']);
     });
-    // Route::group(['prefix' => 'menu', 'middleware' => 'authorize:ADM'], function () {
-    //     Route::get('/', [MenuController::class, 'index'])->name('menu.index');
-    //     Route::post('/list', [MenuController::class, 'list'])->name('menu.list');
-    //     Route::get('/create', [MenuController::class, 'create'])->name('menu.create');
-    //     Route::post('/', [MenuController::class, 'store'])->name('menu.store'); // Tambahkan name disini
-    //     Route::get('/{menu_id}/edit', [MenuController::class, 'edit'])->name('menu.edit');
-    //     Route::put('/{menu_id}', [MenuController::class, 'update'])->name('menu.update');
-    //     Route::delete('/{menu_id}', [MenuController::class, 'destroy'])->name('menu.destroy');
-    //     Route::post('/upload-image', [MenuController::class, 'uploadImage'])->name('upload.image');
-    // });
     Route::group(['prefix' => 'indukMenu', 'middleware' => 'authorize:ADM'], function () {
         Route::get('/', [IndukMenuController::class, 'index']);
         Route::post('/list', [IndukMenuController::class, 'list']);

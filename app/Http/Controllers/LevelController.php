@@ -11,7 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class levelcontroller extends Controller
+class LevelController extends Controller
 {
     public function index()
     {

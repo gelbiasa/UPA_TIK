@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class usermodel extends Authenticatable implements JWTSubject
+class UserModel extends Authenticatable implements JWTSubject
 {
     public function getJWTIdentifier()
     {

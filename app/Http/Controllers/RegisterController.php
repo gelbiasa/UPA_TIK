@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class registercontroller extends Controller
+class RegisterController extends Controller
 {
     public function register(){
         $level = levelmodel::all();
